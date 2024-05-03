@@ -28,6 +28,9 @@ export class TextInput {
   #steps: Step[] = [];
   #garbage: Step[] = [];
   #typo: boolean = false;
+  #chars: readonly Char[] = [];
+  #lines: LineList = { text: "", lines: [] };
+  #suffix: CodePoint[] = [];
 
   constructor(
     text: string,
@@ -50,6 +53,10 @@ export class TextInput {
     this.#steps = [];
     this.#garbage = [];
     this.#typo = false;
+    this.#chars = [];
+    this.#lines = { text: "", lines: [] };
+    this.#suffix = [];
+    this.#updateState();
   }
 
   get completed(): boolean {
@@ -86,6 +93,7 @@ export class TextInput {
       this.#garbage.pop();
     }
     this.#typo = true;
+    this.#updateState();
     return Feedback.Succeeded;
   }
 
@@ -101,6 +109,7 @@ export class TextInput {
       }
     }
     this.#typo = true;
+    this.#updateState();
     return Feedback.Succeeded;
   }
 
@@ -132,12 +141,14 @@ export class TextInput {
       ) {
         // At the beginning of a word.
         this.#typo = true;
+        this.#updateState();
         return Feedback.Failed;
       }
 
       if (this.spaceSkipsWords) {
         // Inside a word.
         this.#skipWord(timeStamp);
+        this.#updateState();
         return Feedback.Recovered;
       }
     }
@@ -156,8 +167,10 @@ export class TextInput {
       this.#garbage = [];
       this.#typo = false;
       if (typo) {
+        this.#updateState();
         return Feedback.Recovered;
       } else {
+        this.#updateState();
         return Feedback.Succeeded;
       }
     }
@@ -177,16 +190,30 @@ export class TextInput {
       this.forgiveErrors &&
       (this.#handleReplacedCharacter() || this.#handleSkippedCharacter())
     ) {
+      this.#updateState();
       return Feedback.Recovered;
     }
+    this.#updateState();
     return Feedback.Failed;
   }
 
-  getSteps(): readonly Step[] {
+  get steps(): readonly Step[] {
     return this.#steps;
   }
 
-  getChars(): readonly Char[] {
+  get chars(): readonly Char[] {
+    return this.#chars;
+  }
+
+  get lines(): LineList {
+    return this.#lines;
+  }
+
+  get suffix(): CodePoint[] {
+    return this.#suffix;
+  }
+
+  #updateState(): void {
     const chars: Char[] = [];
     for (let i = 0; i < this.codePoints.length; i++) {
       const codePoint = this.codePoints[i];
@@ -208,17 +235,12 @@ export class TextInput {
         chars.push(toChar(codePoint, attrNormal));
       }
     }
-    return chars;
-  }
-
-  getLines(): LineList {
-    const { text } = this;
-    const chars = this.getChars();
-    return { text, lines: [{ text, chars }] };
-  }
-
-  getSuffix(): readonly CodePoint[] {
-    return this.codePoints.slice(this.#steps.length);
+    this.#chars = chars;
+    this.#lines = {
+      text: this.text,
+      lines: [{ text: this.text, chars: this.#chars }],
+    };
+    this.#suffix = this.codePoints.slice(this.#steps.length);
   }
 
   #addStep(step: Step): void {

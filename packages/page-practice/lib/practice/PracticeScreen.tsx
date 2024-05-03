@@ -47,7 +47,7 @@ function ResultUpdater({
   );
   const state = new PracticeState(settings, lesson, group, (result) => {
     if (result.validate()) {
-      lastLesson.current = makeLastLesson(result, state.textInput.getSteps());
+      lastLesson.current = makeLastLesson(result, state.textInput.steps);
       appendResults([result]);
     } else {
       appendResults([]); // Forces ui update.

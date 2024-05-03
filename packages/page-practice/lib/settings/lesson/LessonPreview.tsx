@@ -48,7 +48,7 @@ export function LessonPreview({
         <CurrentKeyRow lessonKeys={lessonKeys} />
         <StaticText
           settings={toTextDisplaySettings(settings)}
-          lines={textInput.getLines()}
+          lines={textInput.lines}
         />
       </div>
     </FieldSet>

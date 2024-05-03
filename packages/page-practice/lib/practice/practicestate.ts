@@ -79,15 +79,15 @@ export class PracticeState {
 
   onTextInput(event: TextInputEvent): Feedback {
     const feedback = this.textInput.onTextInput(event);
-    this.lines = this.textInput.getLines();
-    this.suffix = this.textInput.getSuffix();
+    this.lines = this.textInput.lines;
+    this.suffix = this.textInput.suffix;
     if (this.textInput.completed) {
       this.appendResult(
         Result.fromStats(
           this.settings.get(keyboardProps.layout),
           this.settings.get(lessonProps.type).textType,
           Date.now(),
-          newStats(this.textInput.getSteps()),
+          newStats(this.textInput.steps),
         ),
       );
     }
@@ -96,8 +96,8 @@ export class PracticeState {
 
   #reset(fragment: string): void {
     this.textInput = new TextInput(fragment, this.textInputSettings);
-    this.lines = this.textInput.getLines();
-    this.suffix = this.textInput.getSuffix();
+    this.lines = this.textInput.lines;
+    this.suffix = this.textInput.suffix;
   }
 }
 
