@@ -1,6 +1,8 @@
 import { clsx } from "clsx";
-import { type ReactNode, useRef } from "react";
+import { type ReactNode, useImperativeHandle, useRef } from "react";
+import { getBoundingBox } from "../../utils/index.ts";
 import type {
+  AnchorProps,
   ClassName,
   FocusProps,
   KeyboardProps,
@@ -10,7 +12,7 @@ import type { OptionListOption } from "./OptionList.types.ts";
 import * as styles from "./OptionListButton.module.less";
 
 export function OptionListButton({
-  children,
+  anchor,
   className,
   disabled,
   focused,
@@ -21,7 +23,6 @@ export function OptionListButton({
   onClick,
   ...props
 }: {
-  readonly children: ReactNode;
   readonly className?: ClassName;
   readonly focused: boolean;
   readonly open: boolean;
@@ -29,8 +30,14 @@ export function OptionListButton({
   readonly title?: string;
 } & FocusProps &
   MouseProps &
-  KeyboardProps): ReactNode {
+  KeyboardProps &
+  AnchorProps): ReactNode {
   const element = useRef<HTMLSpanElement>(null);
+  useImperativeHandle(anchor, () => ({
+    getBoundingBox(position) {
+      return getBoundingBox(element.current!, position);
+    },
+  }));
   return (
     <span
       {...props}
@@ -50,7 +57,6 @@ export function OptionListButton({
           {open ? "\u25BC" : "\u25BA"}
         </span>
       </span>
-      {children}
     </span>
   );
 }

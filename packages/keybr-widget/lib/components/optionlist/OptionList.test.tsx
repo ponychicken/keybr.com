@@ -2,6 +2,7 @@ import { fireEvent, render } from "@testing-library/react";
 import userEvent from "@testing-library/user-event";
 import test from "ava";
 import { type ReactNode, useState } from "react";
+import { PortalContainer } from "../portal/index.ts";
 import { OptionList } from "./OptionList.tsx";
 import { type OptionListOption } from "./OptionList.types.ts";
 
@@ -15,6 +16,12 @@ const options: readonly OptionListOption[] = [
     name: "Two",
   },
 ];
+
+test.before(() => {
+  const container = document.createElement("div");
+  container.id = PortalContainer.id;
+  document.body.appendChild(container);
+});
 
 test.serial("props", (t) => {
   const r = render(
