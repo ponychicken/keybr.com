@@ -7,6 +7,7 @@ import {
   type Streak,
 } from "@keybr/result";
 import {
+  Explainer,
   Figure,
   Header,
   NameValue,
@@ -55,12 +56,14 @@ export function AccuracySection({
           </Para>
         )}
 
-        <Figure.Legend>
-          <FormattedMessage
-            id="profile.accuracy.legend"
-            defaultMessage="Above are listed the longest continuous sequences of lessons with accuracy above a given threshold, along with statistics about every such sequence. The longer the sequence of lessons, the better."
-          />
-        </Figure.Legend>
+        <Explainer>
+          <Figure.Legend>
+            <FormattedMessage
+              id="profile.accuracy.legend"
+              defaultMessage="Above are listed the longest continuous sequences of lessons with accuracy above a given threshold, along with statistics about every such sequence. The longer the sequence of lessons, the better."
+            />
+          </Figure.Legend>
+        </Explainer>
       </Figure>
     </>
   );

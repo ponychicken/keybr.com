@@ -9,9 +9,9 @@ import {
 import { type ReactNode, useLayoutEffect } from "react";
 import { useIntl } from "react-intl";
 
-const propExplainSettings = booleanProp("prefs.settings.explain", true);
+const propExplainSettings = booleanProp("prefs.profile.explain", true);
 
-export function ExplainSettings(): ReactNode {
+export function ExplainProfile(): ReactNode {
   const { formatMessage } = useIntl();
   const { explainersVisible, toggleExplainers } = useExplainerState();
   useLayoutEffect(() => {
@@ -29,12 +29,12 @@ export function ExplainSettings(): ReactNode {
         >
           {explainersVisible
             ? `\u25BC ${formatMessage({
-                id: "settings.explain.hide",
+                id: "profile.explain.hide",
                 defaultMessage: "Hide explanations",
               })}`
             : `\u25BA ${formatMessage({
-                id: "settings.explain.show",
-                defaultMessage: "Explain settings",
+                id: "profile.explain.show",
+                defaultMessage: "Explain charts",
               })}`}
         </Button>
       </Field>

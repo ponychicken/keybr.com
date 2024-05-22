@@ -1,11 +1,13 @@
 import { makeSpeedDistribution } from "@keybr/chart";
 import { type NamedUser, Screen, usePageData } from "@keybr/pages-shared";
 import { type KeyStatsMap, ResultSummary } from "@keybr/result";
+import { ExplainerBoundary } from "@keybr/widget";
 import { type ReactNode } from "react";
 import { AccuracySection } from "./profile/AccuracySection.tsx";
 import { CalendarSection } from "./profile/CalendarSection.tsx";
 import { ComparisonSection } from "./profile/ComparisonSection.tsx";
 import { DistributionSection } from "./profile/DistributionSection.tsx";
+import { ExplainProfile } from "./profile/ExplainProfile.tsx";
 import { FooterSection } from "./profile/FooterSection.tsx";
 import { KeyFrequencyHeatmapSection } from "./profile/KeyFrequencyHeatmapSection.tsx";
 import { KeyFrequencyHistogramSection } from "./profile/KeyFrequencyHistogramSection.tsx";
@@ -20,9 +22,12 @@ import { TypingSpeedSection } from "./profile/TypingSpeedSection.tsx";
 export function ProfileApp(): ReactNode {
   return (
     <Screen>
-      <ResultGrouper>
-        {(keyStatsMap) => <Content keyStatsMap={keyStatsMap} />}
-      </ResultGrouper>
+      <ExplainerBoundary>
+        <ExplainProfile />
+        <ResultGrouper>
+          {(keyStatsMap) => <Content keyStatsMap={keyStatsMap} />}
+        </ResultGrouper>
+      </ExplainerBoundary>
     </Screen>
   );
 }

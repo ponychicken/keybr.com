@@ -309,6 +309,8 @@
   "profile.chart.summary.statisticsToday.header": "Statistics for Today",
   "profile.emptyChart.description": "Complete a few more lessons to get more data points.",
   "profile.emptyChart.header": "Not enough data",
+  "profile.explain.hide": "Hide explanations",
+  "profile.explain.show": "Explain charts",
   "profile.smoothness.description": "Eliminate noise to see the long-term trend.",
   "profile.smoothness.label": "Smoothness:",
   "profile.widget.downloadData.description": "Download all your typing data in JSON format.",
